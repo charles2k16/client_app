@@ -1,0 +1,117 @@
+definitions:        
+  Client:
+    type: object
+    required:
+      - name
+      - email
+      - phone
+    properties:
+      name:
+        type: string
+      email:
+        type: string
+      phone:
+        type: string
+      providers:
+        type: array
+        items:
+          type: string
+          required: false
+    example:
+      name: John Doe
+      email: charles@gmail.com
+      phone: 1-234-567-8901
+
+paths:
+  /clients/:
+    get:                 
+      tags:               
+        - Client            
+      summary: Gets all Clients
+      produces:
+      - application/json
+      responses:          
+        200:
+          description: Clients found
+        404:
+          description: Clients not found
+
+    post:                 
+      tags:               
+        - Client            
+      summary: Creates a New Client
+      produces:
+      - application/json
+      parameters:         
+      - in: body          
+        name: Create a Client     
+        description: Creates a new client
+        required: true
+        schema:           
+          $ref: '#/definitions/Client' 
+      responses:          
+        201:
+          description: Client created successfully
+        404:
+          description: Client not found
+
+  /clients/{id}:
+    get:                 
+      tags:               
+        - Client            
+      summary: Gets a Client
+      produces:
+      - application/json
+      parameters:         
+      - in: path
+        name: id
+        description: Client ID
+        required: true
+        type: string
+      responses:          
+        200:
+          description: Client found
+        404:
+          description: Client not found
+
+    put:
+      tags:
+        - Client
+      summary: Updates a Client
+      produces:
+      - application/json
+      parameters:
+      - in: path
+        name: id
+        description: Client ID
+        required: true
+        type: string
+      - in: body
+        name: Update a Client
+        description: Updates a client
+        required: true
+        schema:
+          $ref: '#/definitions/Client'
+      responses:
+        200:
+          description: Client updated successfully
+        404:
+          description: Client not found   
+
+    delete:
+      tags:
+        - Client
+      summary: Deletes a Client
+      produces:
+      - application/json
+      parameters:
+      - in: path
+        name: id
+        description: Client ID
+        required: true
+        type: string
+      responses:
+        200:
+          description: Client deleted successfully
+        404:
+          description: Client not found

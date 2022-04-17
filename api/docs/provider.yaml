@@ -1,0 +1,97 @@
+definitions:        
+  Provider:
+    type: object
+    properties:
+      name:
+        type: string
+    example:
+      name: Provider1
+        
+paths:
+  /providers/:
+    post:                 
+      tags:               
+        - Provider            
+      summary: Creates a New Provider
+      produces:
+      - application/json
+      parameters:         
+      - in: body          
+        name: Create a Provider     
+        description: Creates a new provider
+        required: true
+        schema:           
+          $ref: '#/definitions/Provider' 
+      responses:          
+        201:
+          description: Provider created successfully
+        404:
+          description: Provider not found
+ 
+    get:                 
+      tags:               
+        - Provider            
+      summary: Gets all Providers
+      produces:
+      - application/json
+      responses:          
+        200:
+          description: Providers found
+        404:
+          description: Providers not found
+ 
+  /providers/{id}:
+    put:                 
+      tags:               
+        - Provider            
+      summary: Updates a Provider
+      produces:
+      - application/json
+      parameters:         
+      - in: body          
+        name: Update a Provider     
+        description: Updates a provider
+        required: true
+        schema:           
+          $ref: '#/definitions/Provider' 
+      responses:          
+        201:
+          description: Provider updated successfully
+        404:
+          description: Provider not found
+ 
+    get:                 
+      tags:               
+        - Provider            
+      summary: Gets a single Provider
+      produces:
+      - application/json
+      parameters:         
+      - in: path
+        name: id
+        description: Provider ID
+        required: true
+        type: string
+      responses:          
+        200:
+          description: Provider found
+        404:
+          description: Provider not found
+
+    delete:                 
+      tags:               
+        - Provider            
+      summary: Deletes a Provider
+      produces:
+      - application/json
+      parameters:         
+      - in: path          
+        name: id     
+        description: Provider ID
+        required: true
+        type: string
+      responses:          
+        201:
+          description: Provider deleted successfully
+        404:
+          description: Provider not found
