@@ -7,9 +7,9 @@ export default {
     apiService,
   },
 
-  getClients() {
+  getClients(query) {
     return apiService
-      .get(config.CLIENTS_URL)
+      .get(config.CLIENTS_URL, query)
       .then(response => Promise.resolve(response))
       .catch(error => Promise.reject(error));
   },

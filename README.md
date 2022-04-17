@@ -15,7 +15,7 @@ The following steps below will assist you in running the app locally on your mac
 1. Navigae to frontend directory
  ```cd frontend```
 
-2. Initialize git
+2. Initialize git (Optional)
    ```git init```
 
 3. Install packages
@@ -52,6 +52,12 @@ If you are all set, you can run the dev script to run your node server locally.
 The server should be running on
 
 > <http://127.0.0.1:5000>
+
+#### Seed DB
+
+If you wish to seed some data before hand for testing purposes. Run the seed command below to populate the db with clients and providers
+
+```node seeder -i```
 
 #### Swagger Docs
 

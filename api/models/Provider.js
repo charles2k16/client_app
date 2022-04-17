@@ -2,7 +2,10 @@ const mongoose = require('mongoose');
 
 const ProviderSchema = new mongoose.Schema(
   {
-    name: String,
+    name: {
+      type: String,
+      required: [true, 'Please add a name'],
+    },
     createdAt: {
       type: Date,
       default: Date.now,

@@ -10,7 +10,15 @@
       </div>
       <table class="clients_table">
         <tr>
-          <th>Name</th>
+          <th class="d-flex_align_center">
+            Name
+            <img
+              src="@/assets/icon/sort.png"
+              alt="icon"
+              class="sort_icon"
+              @click="sortClients"
+            />
+          </th>
           <th>Email</th>
           <th>Phone</th>
           <th>Providers</th>
@@ -22,15 +30,19 @@
           <td>{{ client.phone }}</td>
           <td>
             <div v-if="client.providers.length > 0">
-              <span v-for="(provider, index) in client.providers" :key="index">
-                {{ provider.name }}
+              <span
+                v-for="(provider, index) in client.providers"
+                :key="index"
+                class="mr-10"
+              >
+                {{ provider.name }},
               </span>
             </div>
 
             <span v-else>No providers</span>
           </td>
-          <td>
-            <button class="btn primary mr-15" @click="editClient(client)">
+          <td class="d-flex justify_end">
+            <button class="btn warning mr-15" @click="editClient(client)">
               Edit
             </button>
             <button class="btn danger" @click="deleteClient(client._id)">
@@ -65,6 +77,7 @@ export default {
       clients: [],
       clientDetails: {},
       modalType: 'add',
+      query: {},
     };
   },
   created() {
@@ -73,10 +86,9 @@ export default {
   methods: {
     getClients() {
       clientService
-        .getClients()
+        .getClients(this.query)
         .then(response => {
           this.clients = response.data;
-          console.log(this.clients);
         })
         .catch(errors => {
           console.log(errors);
@@ -90,6 +102,14 @@ export default {
       this.clientDetails = clientDetails;
       this.modalType = 'edit';
       this.showModal = true;
+    },
+    sortClients() {
+      if (Object.keys(this.query).length === 0) {
+        this.query.sort = '-1';
+      } else {
+        delete this.query.sort;
+      }
+      this.getClients();
     },
     deleteClient(clientId) {
       clientService
@@ -118,11 +138,15 @@ export default {
   width: 100%;
 }
 .table_header {
-  background-color: rgb(236, 247, 240);
+  background-color: rgb(230, 241, 249);
   padding: 10px;
+  height: 50px;
+  border-top: 1px solid #ddd;
+  border-left: 1px solid #ddd;
+  border-right: 1px solid #ddd;
 }
 .table_header .name {
-  color: rgb(167, 171, 167);
+  color: rgb(46, 85, 184);
 }
 .clients_table td,
 .clients_table th {
@@ -133,16 +157,18 @@ export default {
 .clients_table tr:nth-child(even) {
   background-color: #f2f2f2;
 }
-
 .clients_table tr:hover {
   background-color: #ddd;
 }
-
 .clients_table th {
   padding-top: 12px;
   padding-bottom: 12px;
   text-align: left;
-  background-color: #04aa6d;
-  color: white;
+  background-color: #e4e2e2;
+  color: rgb(80, 78, 78);
+}
+.sort_icon {
+  width: 15px;
+  margin-left: 5px;
 }
 </style>

@@ -19,7 +19,7 @@ const getQuerryFilters = (model, populate) => async (req, res, next) => {
   // Finding resource
   query = model.find(JSON.parse(queryStr));
 
-  // Select Fields
+  // Select Fields so we can select multiple fields as response
   if (req.query.select) {
     const fields = req.query.select.split(',').join(' ');
     query = query.select(fields);
@@ -34,43 +34,19 @@ const getQuerryFilters = (model, populate) => async (req, res, next) => {
   }
 
   // Pagination
-  const page = parseInt(req.query.page, 10) || 1;
-  const limit = parseInt(req.query.limit, 10) || 25;
-  const startIndex = (page - 1) * limit;
-  const endIndex = page * limit;
-  const total = await model.countDocuments();
 
-  query = query.skip(startIndex).limit(limit);
+  const total = await model.countDocuments();
 
   if (populate) {
     query = query.populate(populate);
   }
-
   // Executing query
   const results = await query;
-
-  // Pagination result
-  const pagination = {};
-
-  if (endIndex < total) {
-    pagination.next = {
-      page: page + 1,
-      limit
-    };
-  }
-
-  if (startIndex > 0) {
-    pagination.prev = {
-      page: page - 1,
-      limit
-    };
-  }
 
   res.getQuerryFilters = {
     success: true,
     total: total,
-    pagination,
-    data: results
+    data: results,
   };
 
   next();
